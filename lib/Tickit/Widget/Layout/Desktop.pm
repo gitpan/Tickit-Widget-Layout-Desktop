@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw(Tickit::Widget);
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 =head1 NAME
 
@@ -13,7 +13,7 @@ Tickit::Widget::Layout::Desktop - provides a holder for "desktop-like" widget be
 
 =head1 VERSION
 
-Version 0.001
+Version 0.002
 
 =head1 SYNOPSIS
 
@@ -47,6 +47,12 @@ Version 0.001
 =head1 DESCRIPTION
 
 Experimental release for a container that provides move/resize/minimize/maximize "window" behaviour.
+
+=begin HTML
+
+<p><img src="http://tickit.perlsite.co.uk/cpan-screenshot/tickit-widget-layout-desktop1.gif" alt="Desktop widget in action" width="539" height="315"></p>
+
+=end HTML
 
 Constructed of:
 

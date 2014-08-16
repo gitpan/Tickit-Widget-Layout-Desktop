@@ -16,6 +16,7 @@ lib/Tickit/Widget/Layout/Desktop.pm
 lib/Tickit/Widget/Layout/Desktop.pod
 lib/Tickit/Widget/Layout/Desktop/Window.pm
 lib/Tickit/Widget/Layout/Desktop/Window.pod
+screenshots/tickit-widget-layout-desktop1.gif
 t/00-check-deps.t
 t/00-compile.t
 t/000-report-versions-tiny.t

@@ -1,5 +1,5 @@
 package Tickit::Widget::Layout::Desktop::Window;
-$Tickit::Widget::Layout::Desktop::Window::VERSION = '0.001';
+$Tickit::Widget::Layout::Desktop::Window::VERSION = '0.002';
 use strict;
 use warnings;
 
@@ -11,7 +11,7 @@ Tickit::Widget::Layout::Desktop - provides a holder for "desktop-like" widget be
 
 =head1 VERSION
 
-Version 0.001
+Version 0.002
 
 =cut
 
