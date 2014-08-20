@@ -14,22 +14,22 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 3ef84cf84046c9b4a17715892c6a3a2c5d64f25c Changes
+SHA1 e2397ae98dee24e989c1957985205a5f2110be8b Changes
 SHA1 b97056a4c8ff9a347beb9b4804959c5a86d67533 INSTALL
 SHA1 509f655780fe2a934ad8515fa15921b96a6de84c LICENSE
 SHA1 5638b9539b075c1d5dfb54ad326d16dd22fb1c58 MANIFEST
-SHA1 770612712bf5fd0ed54c5f52eedc19fdcb59d382 META.json
-SHA1 8a2d12729d25d89d716bc146d2f3b53d1764e19a META.yml
-SHA1 6457c4fcf0de04353646c2ed401291ebbeb8eba1 Makefile.PL
-SHA1 33917dbd392aaaa6c19d0673c8cb978c5ae4cf3c README
+SHA1 76cece686bf8d5b1bc9c0c2c65d4d99ba6d8aaea META.json
+SHA1 5e36ea7271dd1fb4d3a12f5f7fd5e5862eb37e26 META.yml
+SHA1 3dc28685cdfa271c668413c7fa7119d6d9d0f804 Makefile.PL
+SHA1 1668e2921b814dea09bd225d6b5e7aebb3c47384 README
 SHA1 cca0557883938a1dedcb99a992d28f10f88a69f5 cpanfile
 SHA1 41cdd2dac1cb85b6ae38d9a441abf4849a3b190b dist.ini
 SHA1 a207450d87a9fa7f9ad181c71120a5979a80fd01 examples/basic.pl
 SHA1 f07aa7e1dc7ecc9a0c45fb574f94cdfe296625fd examples/synopsis.pl
-SHA1 49e84137970b3c541793dde77513cfeac534525e lib/Tickit/Widget/Layout/Desktop.pm
-SHA1 9c22d9c11dfae30246e89c80c5ba0d0b36c3f0bb lib/Tickit/Widget/Layout/Desktop.pod
-SHA1 e9a521e16c0d1a648c7650e27583f3f3a3214bad lib/Tickit/Widget/Layout/Desktop/Window.pm
-SHA1 9f605d6aef10a882200cffbc9dda8943890edb3e lib/Tickit/Widget/Layout/Desktop/Window.pod
+SHA1 9455b3903585b3beb94d2f6bfa2bf2e43004ca67 lib/Tickit/Widget/Layout/Desktop.pm
+SHA1 abf147c6affe550cfc767da75442602c7b0d98f0 lib/Tickit/Widget/Layout/Desktop.pod
+SHA1 22118ca3fc82ce391a961b2aed65e7706c0e8f70 lib/Tickit/Widget/Layout/Desktop/Window.pm
+SHA1 5a4934eaf52f0f7095ffcda1e9fc7485400bcd6b lib/Tickit/Widget/Layout/Desktop/Window.pod
 SHA1 793aa4144afb8062f3ca7911023a2df85761e0a2 screenshots/tickit-widget-layout-desktop1.gif
 SHA1 985d9ded8d8ed7e344a09e52b1402e878e91da28 t/00-check-deps.t
 SHA1 2edf8845801a29688d91972cbf65687bf466b5ef t/00-compile.t
@@ -42,11 +42,11 @@ SHA1 bbcd59d081d9940af5d43337ae85458075933829 xt/release/test-version.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iQEcBAEBAgAGBQJT75PrAAoJEFKElMNpjtyDmjUIAIcS63QpISZJgRHkQaMdcW80
-ucjg6mmWqxm7gJbhA08EdJDE1xwdn9UR2Za55qxyjxLDdD+laTKoPrbvU21ZCDR2
-DT6P+Vm8JMkvTxDhvuh3DQOWLgYyZmewvHzEK+haTPeOFrawnoXptrdNWR5oimvK
-nEf1Y+nxYUmIkkbya+DbLxiQR4ERvUgbIN7PkaGOPx1KDDb2AaQVMT2YLLwzVLaj
-Ta3Pn3cMJ2zNf5fYeD44Ulm8gWGRtDW1V092bA7W4AiZoTqtE1IjPu3Pweb2aw+M
-JBvYU+9ojnSIhLu0prqPw4oSTPt0UWPyMaidBL/kJLyx5JOqH/D5jRlPK1uNCFw=
-=FgbL
+iQEcBAEBAgAGBQJT9PA1AAoJEFKElMNpjtyD38sH/ipTioOuBYBSA4Whp09ly9/C
+tUaRZrxAnsQypWJsab5aMs2YtaeyK83uhclutixdWFrPZ1kZOm9RKwndof7YDkJr
+gbafUMbHxBi/VboaNnvYoXeONgXwJZ8mqjXoqjm4Qkx+QRwF0xwBGHjF3SEB6FBN
+yutOVfj2xf0OmWr7TKxqX+nm05wJZ+WVbmmEuhxvs5IqDEn7pC3vs9u+0Vm6KVuR
+aHk5QmxhqVHYKDIXhTly3SClF1QThTYgqiyndEFxAM+cqtVKdfOJkTdv6y+0uKnS
+9zkYnjx8yAE5NxHC7V67W3j3XDE8SKRMGbNpIeBl4NCOPi5FZW5gar9FFt40VhM=
+=+UAR
 -----END PGP SIGNATURE-----

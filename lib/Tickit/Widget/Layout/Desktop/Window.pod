@@ -16,7 +16,7 @@ Tickit::Widget::Layout::Desktop - provides a holder for "desktop-like" widget be
 
 =head1 VERSION
 
-Version 0.002
+Version 0.003
 
 =head1 METHODS
 
@@ -42,9 +42,36 @@ and restoring the context around the call.
 
 Returns $self.
 
+=head2 content_rect
+
+Represents the inner area of this window, i.e. the
+content without the frame.
+
 =head2 render_to_rb
 
 Returns $self.
+
+=head2 change_geometry
+
+Override geometry changes to allow welding and constraints.
+
+We have a set of rules for each widget, of the followin form:
+
+ {
+  left => [
+   left => $w1,
+   right => $w2,
+  ],
+  top => [
+   top => $w2
+  ]
+ }
+
+If the left edge changes, the left edge of $w1 and the right edge of $w2 would move by the same amount.
+
+If the top changes, the top of $w2 would move by the same amount
+
+That's about it. The idea is that edges can be "joined", meaning that resizing applies to multiple widgets at once.
 
 =head1 INHERITED METHODS
 
@@ -52,7 +79,7 @@ Returns $self.
 
 =item L<Tickit::WidgetRole::Movable>
 
-L<change_geometry|Tickit::WidgetRole::Movable/change_geometry>, L<export_subs_for|Tickit::WidgetRole::Movable/export_subs_for>, L<mouse_drag|Tickit::WidgetRole::Movable/mouse_drag>, L<mouse_release|Tickit::WidgetRole::Movable/mouse_release>, L<move|Tickit::WidgetRole::Movable/move>, L<on_mouse|Tickit::WidgetRole::Movable/on_mouse>, L<position_is_corner|Tickit::WidgetRole::Movable/position_is_corner>, L<position_is_edge|Tickit::WidgetRole::Movable/position_is_edge>, L<position_is_title|Tickit::WidgetRole::Movable/position_is_title>, L<resize_from_corner|Tickit::WidgetRole::Movable/resize_from_corner>, L<resize_from_edge|Tickit::WidgetRole::Movable/resize_from_edge>, L<start_moving|Tickit::WidgetRole::Movable/start_moving>, L<start_resize_from_corner|Tickit::WidgetRole::Movable/start_resize_from_corner>, L<start_resize_from_edge|Tickit::WidgetRole::Movable/start_resize_from_edge>
+L<export_subs_for|Tickit::WidgetRole::Movable/export_subs_for>, L<mouse_drag|Tickit::WidgetRole::Movable/mouse_drag>, L<mouse_release|Tickit::WidgetRole::Movable/mouse_release>, L<move|Tickit::WidgetRole::Movable/move>, L<on_mouse|Tickit::WidgetRole::Movable/on_mouse>, L<position_is_corner|Tickit::WidgetRole::Movable/position_is_corner>, L<position_is_edge|Tickit::WidgetRole::Movable/position_is_edge>, L<position_is_title|Tickit::WidgetRole::Movable/position_is_title>, L<resize_from_corner|Tickit::WidgetRole::Movable/resize_from_corner>, L<resize_from_edge|Tickit::WidgetRole::Movable/resize_from_edge>, L<start_moving|Tickit::WidgetRole::Movable/start_moving>, L<start_resize_from_corner|Tickit::WidgetRole::Movable/start_resize_from_corner>, L<start_resize_from_edge|Tickit::WidgetRole::Movable/start_resize_from_edge>
 
 =item L<Tickit::WidgetRole>
 

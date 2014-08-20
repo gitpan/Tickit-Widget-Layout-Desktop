@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw(Tickit::Widget);
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 =head1 NAME
 
@@ -13,7 +13,7 @@ Tickit::Widget::Layout::Desktop - provides a holder for "desktop-like" widget be
 
 =head1 VERSION
 
-Version 0.002
+Version 0.003
 
 =head1 SYNOPSIS
 
@@ -121,9 +121,7 @@ to check for intersections so we don't waste time drawing unrelated areas
 =cut
 
 sub overlay {
-	my $self = shift;
-	my $rb = shift;
-	my $exclude = shift;
+	my ($self, $rb, $rect, $exclude) = @_;
 	my $target = $exclude->window->rect;
 
 	# TODO change this when proper accessors are available
@@ -133,16 +131,17 @@ sub overlay {
 	delete $win_map{refaddr($exclude->window)};
 
 	# Each child widget, from back to front
+	CHILD:
 	foreach my $child (reverse grep defined, map $win_map{refaddr($_)}, @{$self->window->{child_windows}}) {
-		my $w = $child->window or next;
-		next unless $w->rect->intersects($target);
+		next CHILD unless my $w = $child->window;
+		next CHILD unless $w->rect->intersects($target);
 
 		# Clear out anything that would be under this window,
 		# so we don't draw lines that are obscured by upper
 		# layers
-		for my $l ($w->top..$w->bottom - 1) {
-			$rb->erase_at($l, $w->left + 1, $w->cols - 2);
-		}
+		$rb->eraserect(
+			$w->rect
+		);
 
 		# Let the child window render itself to the given
 		# context, since it knows more about styles than we do
@@ -208,7 +207,7 @@ sub create_panel {
 	push @{$self->{widgets}}, $w;
 
 	# Need to redraw our window if position or size change
-	$self->{extents}{refaddr $float} = $float->rect;
+	$self->{extents}{refaddr $float} = $float->rect->translate(0,0);
 	$float->set_on_geom_changed($self->curry::weak::float_geom_changed($w));
 	$w
 }
@@ -220,6 +219,8 @@ sub float_geom_changed {
 	my $float = $w->window or return;
 
 	my $old = $self->{extents}{refaddr $float};
+	my $new = $float->rect;
+
 	# Any time a panel moves or changes size, we'll potentially need
 	# to trigger expose events on the desktop background and any
 	# sibling windows.
@@ -228,63 +229,30 @@ sub float_geom_changed {
 	# window for this area (for a move, it'll typically be up to two rectangles)
 	my $rs = Tickit::RectSet->new;
 	$rs->add($old);
-	$rs->subtract($w->window->rect);
-	# Originally thought we might need expose events for the newly-covered
-	# area as well, but that does not seem to be necessary.
-	# $rs->add($w->window->rect);
-	# $rs->subtract($old->intersect($w->window->rect));
-	$win->expose($_) for $rs->rects;
-	# This was an experiment which really didn't work out. Seems logical that shifting the
-	# area around would be more efficient, but it's not like many terminals appear to support
-	# arbitrary rectangular scrolling anyway.
-	if(0) {
-		my $wr = $w->window->rect;
-		if($old->lines == $wr->lines && $old->cols == $wr->cols) {
-			# Tickit::Window;
-			my $down = ($wr->top - $old->top);
-			my $right = ($wr->left - $old->left);
-			warn sprintf '(%d,%d), %dx%d for %dx%d', $wr->left, $wr->top, $wr->cols, $wr->lines, $right, $down;
-			$win->scrollrect(
-				$wr->top,
-				$wr->left,
-				$wr->lines,
-				$wr->cols,
-				$down,
-				$right,
-			) && $w->window->scrollrect(
-				0, #$wr->top,
-				0, #$wr->left,
-				$wr->lines,
-				$wr->cols,
-				$down,
-				$right,
-			) or do {
-				warn "no scrolling :(";
-				$w->window->expose($_) for $rs->rects
-			};
-			$w->expose_frame;
-		} else {
-			$w->window->expose;
-		}
+	$rs->add($new);
+
+	# We have moved. This means we may be able to scroll. However! It's not quite that
+	# simple. Our move event may cause other panels to move as well, and a move is
+	# likely to involve frame redraw as well. See Tickit::Widgget::ScrollBox for more
+	# details on the scroll_with_children method.
+	if(0 && ($old->left != $new->left || $old->top != $new->top)) {
+		my @opt = (
+			-($new->top - $old->top),
+			-($new->left - $old->left),
+		);
+		Tickit::Debug->log("Wx", "scrollrect: %s => %s", $float->scroll_with_children(
+			@opt
+		), join(',',@opt));
 	}
 
-	# Mark the entire child window as exposed. Hopefully we can cut
-	# this down in future.
-	# FIXME We've marked the top-level (desktop) window as exposed for all the changed areas,
-	# so surely that would propagate to any relevant areas on the child windows? seems that
-	# this line really should not be needed if the above RectSet calculations were done
-	# correctly.
-	$w->window->expose;
+	# Trigger expose events for the area we used to be in, and the new location.
+	$win->expose($_) for $rs->rects;
 
-	# After all that we can stash the current extents for this child window
-	# so we know what's changed next time.
-	$self->{extents}{refaddr $float} = $w->window->rect;
+	# Now stash the current extents for this child window so we know what's changed next time.
+	$self->{extents}{refaddr $float} = $w->window->rect->translate(0,0);
 
-	# Do remember to pass on the event so the child widget knows what's going on
-	$win->tickit->later(sub {
-		$w->window->expose;
-		$w->reshape(@_);
-	});
+	# Also pass on the event, so the child widget knows what's going on
+	$w->reshape(@_);
 }
 
 =head1 API METHODS
@@ -344,6 +312,7 @@ sub reshape {
 	}
 	$self->{geometry} = { map { $_ => $win->$_ } @directions };
 
+# This will probably end up using Layout::Relative.
 #	my %buckets = map { $_ => [] } @directions;
 #	foreach my $w (@{$self->{widgets}}) {
 #		push @{$buckets{$_}}, { base => $w->window->$_, expand => 1 } for @directions;
@@ -364,6 +333,12 @@ sub reshape {
 #		)
 #	}
 }
+
+=head2 cascade
+
+Arrange all the windows in a cascade (first at 1,1, second at 2,2, etc.).
+
+=cut
 
 sub cascade {
 	my $self = shift;
@@ -430,6 +405,12 @@ sub tile {
 		}
 	}
 }
+
+=head2 close_all
+
+Close all the windows.
+
+=cut
 
 sub close_all {
 	my $self = shift;

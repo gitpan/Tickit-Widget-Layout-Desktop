@@ -1,5 +1,16 @@
 Revision history for Tickit-Widget-Layout-Desktop
 
+0.003     2014-08-20 19:59:52+01:00 Europe/London
+	New features:
+	* Ability to join edges on windows for moving things in parallel
+	* Clamp-to-edge
+	* Rounded corners are back
+
+	Bugs fixed:
+	* Expose handling improved, slightly faster but still plenty of room
+	for optimisation.
+	* When moving windows, limit them to the available space
+
 0.002     2014-08-16 18:24:47+01:00 Europe/London
 	No new features.
 

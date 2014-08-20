@@ -16,7 +16,7 @@ Tickit::Widget::Layout::Desktop - provides a holder for "desktop-like" widget be
 
 =head1 VERSION
 
-Version 0.002
+Version 0.003
 
 =head1 SYNOPSIS
 
@@ -145,6 +145,10 @@ it for now.
 
 Returns $self.
 
+=head2 cascade
+
+Arrange all the windows in a cascade (first at 1,1, second at 2,2, etc.).
+
 =head2 tile
 
 Tiles all the windows. Tries to lay them out so things don't overlap.
@@ -153,6 +157,10 @@ Since we're resizing, things may end up ridiculously small.
 Pass overlap => 1 to have overlapping edges.
 
 Returns $self.
+
+=head2 close_all
+
+Close all the windows.
 
 =head1 SEE ALSO
 
