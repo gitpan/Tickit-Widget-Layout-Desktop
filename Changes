@@ -1,5 +1,10 @@
 Revision history for Tickit-Widget-Layout-Desktop
 
+0.004     2014-08-31 01:22:30+01:00 Europe/London
+	New features:
+	* Menu popup for max/min/weld/close features
+	* Restore windows after maximise
+
 0.003     2014-08-20 19:59:52+01:00 Europe/London
 	New features:
 	* Ability to join edges on windows for moving things in parallel

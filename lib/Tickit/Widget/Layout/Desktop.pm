@@ -3,9 +3,9 @@ package Tickit::Widget::Layout::Desktop;
 use strict;
 use warnings;
 
-use parent qw(Tickit::Widget);
+use parent qw(Tickit::ContainerWidget);
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 =head1 NAME
 
@@ -13,7 +13,7 @@ Tickit::Widget::Layout::Desktop - provides a holder for "desktop-like" widget be
 
 =head1 VERSION
 
-Version 0.003
+Version 0.004
 
 =head1 SYNOPSIS
 
@@ -78,10 +78,17 @@ window lists and launchers
 
 use curry::weak;
 use Scalar::Util qw(refaddr);
-use List::Util qw(max);
+use List::Util qw(max pairmap);
 use Tickit::Utils qw(textwidth distribute);
 
+use Tickit::Widget::Menu;
+use Tickit::Widget::Menu::Item;
+
 use Tickit::Widget::Layout::Desktop::Window;
+use Variable::Disposition;
+
+use constant CAN_FOCUS => 1;
+#use Tickit::ContainerWidget
 
 =head1 METHODS
 
@@ -102,6 +109,8 @@ sub render_to_rb {
 	$rb->eraserect($rect);
 	# Tickit::RenderBuffer
 }
+
+sub children { @{shift->{widgets}} }
 
 =head2 overlay
 
@@ -210,6 +219,38 @@ sub create_panel {
 	$self->{extents}{refaddr $float} = $float->rect->translate(0,0);
 	$float->set_on_geom_changed($self->curry::weak::float_geom_changed($w));
 	$w
+}
+
+sub show_control {
+	my ($self, $panel, @items) = @_;
+	my $win = $self->window or return;
+	my $panel_win = $panel->window;
+
+	my $menu;
+	my @menu_items = pairmap {
+		{ # https://rt.cpan.org/Ticket/Display.html?id=95409
+			my $code = $b;
+			Tickit::Widget::Menu::Item->new(
+				name => $a,
+				on_activate => sub {
+					$menu->dismiss;
+					$win->tickit->later(sub {
+						$code->();
+						dispose $menu;
+					});
+				}
+			)
+		}
+	} @items;
+
+	$menu = Tickit::Widget::Menu->new(
+		items => \@menu_items,
+	);
+	$menu->popup(
+		$panel_win,
+		1,
+		1
+	);
 }
 
 sub float_geom_changed {
@@ -415,6 +456,13 @@ Close all the windows.
 sub close_all {
 	my $self = shift;
 	$_->close for reverse @{$self->window->{child_windows}};
+}
+
+# Tickit::Widget
+sub focus_next {
+	my ($self) = shift;
+	warn "focus next: @_\n";
+	$self->SUPER::focus_next(@_)
 }
 
 1;

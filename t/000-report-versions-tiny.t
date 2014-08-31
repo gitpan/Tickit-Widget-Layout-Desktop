@@ -52,11 +52,14 @@ eval { $v .= pmver('ExtUtils::MakeMaker','6.48') };
 eval { $v .= pmver('File::Spec','any version') };
 eval { $v .= pmver('IO::Handle','any version') };
 eval { $v .= pmver('IPC::Open3','any version') };
+eval { $v .= pmver('List::Util','1.29') };
 eval { $v .= pmver('Test::CheckDeps','0.010') };
 eval { $v .= pmver('Test::More','0.98') };
 eval { $v .= pmver('Tickit','0.46') };
 eval { $v .= pmver('Tickit::Widget','any version') };
+eval { $v .= pmver('Tickit::Widget::Menu','any version') };
 eval { $v .= pmver('Tickit::WidgetRole::Movable','0.002') };
+eval { $v .= pmver('Variable::Disposition','any version') };
 eval { $v .= pmver('curry::weak','any version') };
 eval { $v .= pmver('parent','any version') };
 
