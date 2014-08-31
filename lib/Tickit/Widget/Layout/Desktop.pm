@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw(Tickit::ContainerWidget);
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 =head1 NAME
 
@@ -13,7 +13,7 @@ Tickit::Widget::Layout::Desktop - provides a holder for "desktop-like" widget be
 
 =head1 VERSION
 
-Version 0.004
+Version 0.005
 
 =head1 SYNOPSIS
 
@@ -202,10 +202,10 @@ sub create_panel {
 	my $win = $self->window or return;
 
 	my $float = $win->make_float(
-		$args{top},
-		$args{left},
-		$args{lines},
-		$args{cols},
+		$args{top} //= 2,
+		$args{left} //= 2,
+		$args{lines} //= 16,
+		$args{cols} //= 30,
 	);
 
 	my $w = ($args{subclass} || 'Tickit::Widget::Layout::Desktop::Window')->new(

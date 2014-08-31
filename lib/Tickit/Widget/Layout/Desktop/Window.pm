@@ -1,5 +1,5 @@
 package Tickit::Widget::Layout::Desktop::Window;
-$Tickit::Widget::Layout::Desktop::Window::VERSION = '0.004';
+$Tickit::Widget::Layout::Desktop::Window::VERSION = '0.005';
 use strict;
 use warnings;
 
@@ -11,7 +11,7 @@ Tickit::Widget::Layout::Desktop - provides a holder for "desktop-like" widget be
 
 =head1 VERSION
 
-Version 0.004
+Version 0.005
 
 =cut
 
@@ -556,8 +556,8 @@ sub change_geometry {
 	$left = 0 if $left < 0;
 	$top = 0 if $top < 0;
 
-	$lines = $deskwin->lines if $top < $self->window->top && $lines == $self->window->lines;
-#	$cols = $deskwin->cols if $left < $self->window->left && $cols == $self->window->cols;
+	$lines = $deskwin->lines if $top < $self->window->top && $self->window->bottom == $deskwin->bottom;
+	$cols = $deskwin->cols if $left < $self->window->left && $self->window->right == $deskwin->right;
 
 	$lines = $deskwin->lines - $top if $top + $lines > $deskwin->lines;
 	$cols = $deskwin->cols - $left if $left + $cols > $deskwin->cols;
